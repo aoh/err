@@ -1,0 +1,273 @@
+[-- standard combinators --]
+
+define I as (S K K)
+define B as (S (K S) K)
+define C as (S (S (K B) S) (K K))
+define W as (S S (S K))
+define M as (S I I)
+define Y as (S (K M) (S B (K M)))
+define D as (C (B C (B (C I) K)))
+define Ω as (M M)
+define T as (C I)
+define N as (B (B C) B)              [not sure what letter is typically used, so using n from mindo]
+define L as (C (B B (B B B)) B)      [ditto]
+
+
+[-- trivial properties of standard combinators --]
+
+theorem Ir ∀A∊Ψ (I A) = A       
+theorem Br ∀a,b,c∊Ψ (B a b c) = (a (b c))
+theorem Cr ∀a,b,c∊Ψ (C a b c) = (a c b)
+theorem Wr ∀a,b∊Ψ (W a b) = (a b b)
+theorem Mr ∀A∊Ψ (M a) = (a a)
+theorem Nr ∀a,b,c,d ∊ Ψ (N a b c d) = (a (b d) c)
+theorem Lr ∀a,b,c,d ∊ Ψ (L a b c d) = (a (b (c d)))
+
+theorem fixedpoint 
+   ∀A∊Ψ (Y A) = (A (Y A))
+
+[small extensional equality test]
+theorem skx
+   (S K S) = (S K K)
+
+[-- booleans --]
+
+define true as K
+define false as (K I)
+
+theorem truer ∀a,b ∊ Ψ (true a b) = a
+theorem falser ∀a,b ∊ Ψ (false a b) = b
+
+
+[-- pairs --]
+
+define pair as (B C (C I))
+define left as (C I K)
+define right as (C I (K I))
+
+theorem pl ∀a,b ∊ Ψ (left  (pair a b)) = a
+theorem pr ∀a,b ∊ Ψ (right (pair a b)) = b
+
+
+[-- triplets --]
+
+define tri as (B (B C) (B C (C I)))
+define 1t  as (B K K)
+define 2t  as (K K)
+define 3t  as (K (K I))
+
+theorem 1tr ∀a,b,c ∊ Ψ (1t a b c) = a
+theorem 2tr ∀a,b,c ∊ Ψ (2t a b c) = b
+theorem 3tr ∀a,b,c ∊ Ψ (3t a b c) = c
+
+theorem trir ∀a,b,c,d ∊ Ψ (tri a b c d) = (d a b c)
+
+
+[-- lists --]
+
+define cons  as (tri false)
+define null  as (tri true I I)
+define null? as (C I 1t)
+define car   as (C I 2t)
+define cdr   as (C I 3t)
+
+theorem carr ∀a,b∊Ψ (car (cons a b)) = a
+theorem cdrr ∀a,b∊Ψ (cdr (cons a b)) = b
+
+let set List have null and (cons hd tl) where tl is from List and hd is from Ψ
+
+
+[-- natural numbers --]
+
+[ as usual (due to Church or Schönfinkel?) a natural number is represented by a term making a 
+  n-fold application of first argument to second. suppose (a^x b) means (a₀ (a₁ (... (aₓ b) ...))).
+  ((S B)^n (K I)) is combinator expression with this property. zero is a 0-fold application, so
+  (0 f x) = x = (I x) = (K I f x). successor is (S B) because ((S B n) f x) = (B f (n f) x) = 
+  (f (n f x)), which in other words increases the self-application by one. ]
+
+define zero  as (K I)
+define zero? as (B C (C B K))
+define one   as I
+define succ  as (S B)
+define pred  as (N C (N (N N) (C (C L (B (C I))) (C I)) K) I)
+define add   as (B S (B B))
+define mul   as B
+define sub   as (B C (C I) pred)  [λmn.(n pred m)]
+define expt  as T
+
+let set ℕ have zero and (succ n) where n is from ℕ
+
+theorem zeror 
+   ∀a,b,c∊Ψ (zero? a b c) = (a (K c) b)
+
+theorem zerop-zero 
+   (zero? zero) = true
+
+theorem zerop-succ 
+   ∀a∊ℕ (zero? (succ a)) = false
+
+theorem succ-zero 
+   (succ zero) = one
+
+
+[ sketching type proof syntax
+
+theorem zero?-type
+   ∀n∊ℕ (zero? n) ∊ Bool 
+proof by induction on n
+   if n is zero then 
+      (zero? zero) = true by zerop-zero ∊ Bool
+   if n is (succ np) then
+      (zero? (succ np)) = false by zerop-succ ∊ Bool ▮
+
+theorem succ-type
+   ∀n∊ℕ (succ n) ∊ ℕ
+proof by induction on n
+   if n is zero then n ∊ ℕ by definition
+   if n is (succ np) then (succ np) ∊ ℕ by definition
+
+theorem add-type 
+   ∀a,b∊ℕ (add a b) ∊ ℕ
+proof by induction on a
+   if a is zero then (add zero b) = b ∊ ℕ
+   if a is (succ ap) then 
+      (add (succ ap) b) 
+        = (succ (add ap b)) 
+        = (succ (add ap b)∊ℕ) by induction 
+        = (succ (add ap b))∊ℕ by definition ▮ 
+
+theorem mul-type
+   ∀a,b∊ℕ (mul a b) ∊ ℕ
+proof by induction n a
+   if a is zero then (mul zero b) = b ∊ ℕ
+   if a is (succ ap) then
+      (mul (succ ap) b)
+        = (add b (mul ap b))
+        = (add b (mul ap b)∊ℕ) by induction
+        = (add b (mul ap b)) ∊ ℕ by add-type ▮
+]
+
+
+[-- useful theorems about numbers in this encoding --]
+
+theorem num-islide 
+   ∀a∊ℕ ∀x∊Ψ (a I y) = y 
+
+theorem num-order 
+   ∀a∊ℕ ∀x,y∊Ψ (a x (x y)) = (x (a x y))
+
+theorem num-cat 
+   ∀a,b∊ℕ ∀x,y∊Ψ (a x (b x y)) = (b x (a x y))
+
+theorem num-compose 
+   ∀a,b∊ℕ ∀x,y∊Ψ (a x (a (b x) y)) = (a (B x (b x)) y)
+
+
+[-- basic number theory --]
+
+theorem add-succ 
+   ∀n∊ℕ (succ n) = (add n one)
+
+theorem pred-succ 
+   ∀a∊ℕ (pred (succ a)) = a
+
+theorem pred-zero 
+   (pred zero) = zero
+
+theorem add-symmetric 
+   ∀a,b∊ℕ (add a b) = (add b a)
+
+theorem add-zero-l 
+   ∀a∊ℕ (add zero a) = a
+
+theorem add-zero-r 
+   ∀a∊ℕ (add a zero) = a
+
+theorem pull-succ-l 
+   ∀a,b∊ℕ (add (succ a) b) = (succ (add a b))
+
+theorem pull-succ-r
+   ∀a,b∊ℕ (add a (succ b)) = (succ (add a b))
+
+theorem sub-succ-elim
+   ∀a,b ∊ ℕ (sub (succ a) (succ b)) = (sub a b)
+proof
+   (sub (succ a) (succ b))
+     = (sub a b) by cheat ▮ 
+
+theorem sub-zero
+   ∀a∊ℕ (sub a zero) = a
+
+theorem sub-add
+   ∀a,b ∊ ℕ (sub (add b a) a) = b
+
+theorem add-succ-swap
+   ∀a,b∊ℕ (add (succ a) b) = (add a (succ b))
+
+theorem add-trans 
+   ∀a,b,c∊ℕ (add a (add b c)) = (add (add a b) c) 
+
+[currently too slow to infer - needs better heuristics]
+theorem mul-symmetric
+   ∀a,b ∊ ℕ (mul a b) = (mul b a)
+proof by induction on a
+   if a is zero then 
+      (mul zero b)
+        = (B (K I) b x) by η+
+        = (B (K I) b x y) by η+
+        = (K I (b x) y) by Br
+        = (I y)
+        = y by Ir
+        = (b I y) by num-islide
+        = (b (K I x) y)
+        = (B b (K I) x y) by Br
+        = (B b (K I) x) by η-
+        = (mul b zero) by η-
+   if a is (succ ap) then
+      (mul (succ ap) b)
+        = (B (S B ap) b)
+        = (B (S B ap) b x) by η+
+        = (B (S B ap) b x y) by η+
+        = (S B ap (b x) y) by Br
+        = (B (b x) (ap (b x)) y)
+        = (b x (ap (b x) y)) by Br
+        = (b x (B ap b x y)) by Br
+        = (b x (B b ap x y)) by induction hypothesis
+        = (b x (b (ap x) y)) by Br
+        = (b x (b (ap x) y)) by Br
+        = (b (B x (ap x)) y) by num-compose
+        = (b (S B ap x) y)
+        = (B b (S B ap) x y) by Br
+        = (B b (S B ap) x) by η-
+        = (B b (S B ap)) by η-
+        = (mul b (succ ap)) ▮
+
+theorem mul-zero-l
+   ∀x∊ℕ (mul zero x) = zero
+
+theorem mul-zero-r
+   ∀a ∊ ℕ (mul a zero) = zero
+
+theorem mul-one-l
+   ∀a∊ℕ (mul one a) = a
+
+theorem mul-one-r
+   ∀a ∊ ℕ (mul a one) = a
+
+theorem pull-add-l
+   ∀a,b∊ℕ (mul (succ a) b) = (add b (mul a b))
+
+theorem pull-add-r
+   ∀a,b∊ℕ (mul a (succ b)) = (add a (mul a b))
+
+theorem pull-mul-r
+   ∀a,b,c∊ℕ (add (mul b a) (mul c a)) = (mul a (add b c))
+
+theorem pull-mul-l
+   ∀a,b,c∊ℕ (add (mul c a) (mul c b)) = (mul c (add a b))
+
+theorem mul-transitive
+   ∀a,b,c∊ℕ (mul a (mul b c)) = (mul (mul a b) c)
+
+
+

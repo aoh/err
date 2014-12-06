@@ -1,0 +1,19 @@
+
+define I as (S K K)
+define B as (S (K S) K)
+
+theorem Ir ∀A∊Ψ (I A) = A
+proof (I A) = (S K K A) = (K A (K A)) = A ▮
+
+theorem Br ∀a,b,c∊Ψ (B a b c) = (a (b c))
+proof (B a b c) = (S (K S) K a b c) = (K S a (K a) b c) = (S (K a) b c) = (K a c (b c)) = (a (b c)) ▮
+
+theorem bad 
+   (B I I) = Q
+proof
+   (B I I)
+     = (B I I Q) by extension
+     = (I (I Q)) by Br
+     = (I Q) by Ir
+     = Q by Ir ▮ 
+

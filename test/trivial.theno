@@ -1,0 +1,10 @@
+
+theorem foo
+   ∀a,b ∊ Ψ (S K a b) = b
+
+theorem bar
+   ∀a ∊ Ψ (S K K a) = (S K S a)
+
+theorem baz 
+   ∀a,b∊Ψ (S (K (S K)) K a b a) = (S K (S K a) b)
+

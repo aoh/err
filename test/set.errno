@@ -1,0 +1,7 @@
+
+let set A have S and K
+
+let set X have K, (I A) and (A B I) where A and B are from X
+
+let set Y have K, (I A) and (B C I) where A is from X and B and C is from K
+

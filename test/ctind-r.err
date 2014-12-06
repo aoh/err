@@ -1,0 +1,14 @@
+[only one induction branch, CT can be defined later]
+
+let set SX have S, K and (S X) where X is from SX
+
+theorem my-identity
+   ∀A,B∊SX (S K A B) = B
+proof by induction on A [just to test it, no need for induction hypothesis]
+   if A is K then
+      (S K K B) = (K B (K B)) = B 
+   if A is S then
+      (S K S B) = (K B (S B)) = B
+   if A is (S x) then
+      (S K (S x) B) = (K B (S x B)) = B ▮ 
+

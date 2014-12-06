@@ -1,0 +1,18 @@
+define I as (S K K)
+define B as (S (K S) K)
+define C as (S (S (K B) S) (K K))
+define W as (S S (S K))
+define M as (S I I)
+define Y1 as (S (K M) (S B (K M)))
+define Y2 as (S S K (S (K (S S (S (S S K)))) K))
+
+theorem Br ∀a,b,c∊Ψ (B a b c) = (a (b c))
+theorem Cr ∀a,b,c∊Ψ (C a b c) = (a c b)
+theorem Wr ∀a,b∊Ψ (W a b) = (a b b)
+
+theorem Mr ∀a∊Ψ (M a) = (a a)
+
+[ too slow, do this only in theories
+theorem Y1r ∀a∊Ψ (Y1 a) = (a (Y1 a))
+theorem Y2r ∀a∊Ψ (Y2 a) = (a (Y2 a))
+]

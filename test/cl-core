@@ -1,0 +1,20 @@
+
+things that will likely be implicit for now:
+
+let set Ψ have S, K and (A B) where A and B are from Ψ
+
+axiom reduce
+   ∀A,B,C∊Ψ (S A B C) = (A C (B C))
+
+axiom reduce [both have the same name for now in reduction]
+   ∀A,B∊Ψ (K A B) = A
+
+axiom E1
+   ∀A∊Ψ A = A
+
+axiom E2
+   ∀A,B,C ∊ Ψ 
+      A = B ∧ B = C → A = C 
+
+...
+

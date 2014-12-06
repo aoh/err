@@ -1,0 +1,54 @@
+
+[some useful standard combinators]
+
+define I as (S K K)
+define B as (S (K S) K)
+define C as (S (S (K B) S) (K K))
+define W as (S S (S K))
+
+[trivial properties of standard combinators]
+
+theorem Ir ∀A∊Ψ (I A) = A       
+   proof 
+      (I A) 
+         = (S K K A) 
+         = (K A (K A)) 
+         = A ▮
+
+theorem Br 
+   ∀a,b,c∊Ψ 
+      (B a b c) = (a (b c))
+proof
+   (B a b c)
+     = (S (K S) K a b c)
+     = (K S a (K a) b c)
+     = (S (K a) b c)
+     = (K a c (b c))
+     = (a (b c)) ▮
+
+theorem Cr
+   ∀a,b,c∊Ψ 
+      (C a b c) = (a c b)
+   proof
+      (C a b c) 
+        = (S (S (K B) S) (K K) a b c)
+        = (S (K B) S a (K K a) b c)
+        = (S (K B) S a K b c)
+        = (K B a (S a) K b c)
+        = (B (S a) K b c)
+        = (S a (K b) c) by Br
+        = (a c (K b c)) 
+        = (a c b) ▮ 
+
+theorem Wr
+   ∀a,b∊Ψ 
+      (W a b) = (a b b)
+   proof
+      (W a b)
+        = (S S (S K) a b)
+        = (S a (S K a) b)
+        = (a b (S K a b))
+        = (a b (K b (a b)))
+        = (a b b) ▮
+
+

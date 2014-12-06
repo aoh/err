@@ -1,0 +1,8 @@
+define I as (S K K)
+
+[check for a potential issue with variable matching, which could cause wrong proofs]
+
+theorem Ir ∀a ∊ Ψ (I a) = a
+theorem IIr ∀a ∊ Ψ (I (I a)) = a
+theorem IIIr ∀a ∊ Ψ (I (I (I a))) = a
+

@@ -1,0 +1,9 @@
+define I as (S K K)
+define B as (S (K S) K)
+define C as (S (S (K B) S) (K K))
+define W as (S S (S K))
+define M as (S I I)
+
+theorem Br ∀a,b,c∊Ψ (B a b c) = (a (b c))
+theorem Cr ∀a,b,c∊Ψ (C a c b) = (a c b)
+theorem Wr ∀a,b∊Ψ (W a b) = (a b b)

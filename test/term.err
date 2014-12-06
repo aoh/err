@@ -1,0 +1,5 @@
+theorem foo
+   ∀A ∊ Ψ
+      ((A A A) A) = (A A A A)
+   proof
+      (((A A) A) A) = (A A A A) ▮

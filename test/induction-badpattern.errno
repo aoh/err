@@ -1,0 +1,23 @@
+
+define I as (S K K)
+
+theorem id
+      ∀ A ∊ Ψ (I A) = A
+   proof
+      (I A) = (S K K A) = (K A (K A)) = A ▮
+
+let set X have K and (I (I T)) where T is from X
+
+theorem xisk
+   ∀A∊X ∀B,C ∊ Ψ
+      (A B C) = B
+   proof by induction on A
+      if A is K then
+         (A B C) = (K B C) = B
+      if A is (I (I (I Ap))) then
+         (A B C) 
+            = (I Ap B C)
+            = (Ap B C) by id
+            = B by induction hypothesis ▮
+
+

@@ -1,0 +1,19 @@
+
+[same as theorem.err, but use different I in id theorem and definition of I, which should cause last theorem to fail]
+
+theorem id
+   ∀A∊Ψ 
+      (S K K A) = A
+   proof
+      (S K K A) = (K A (K A)) 
+                = A ▮
+
+define I as (S K S)
+
+theorem test
+   ∀X∊Ψ 
+      (I X) = X
+   proof
+      (I X) = (S K K X) by reduce
+            = X by id ▮
+      

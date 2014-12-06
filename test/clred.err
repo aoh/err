@@ -1,0 +1,7 @@
+theorem id ∀A ∊ Ψ (S K K A) = (S K S A)
+   proof
+      (S K K A) 
+        = (K A (K A)) by reduce
+        = A           by reduce
+        = (K A (S A)) by reduce
+        = (S K S A)   by reduce ▮

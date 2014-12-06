@@ -1,0 +1,24 @@
+
+theorem foo
+   ∀a,b ∊ Ψ (S K a b) = b
+
+theorem bar
+   ∀a ∊ Ψ (S K K a) = (S K S a)
+
+theorem baz 
+   ∀a,b∊Ψ (S (K (S K)) K a b) = (S K (S K a) b)
+
+[ too slow
+theorem y1
+   ∀a∊Ψ (S S K (S (K (S S (S (S S K)))) K) a) = (a (S S K (S (K (S S (S (S S K)))) K) a))
+
+theorem y2
+   ∀a∊Ψ (S (K (S (S K K) (S K K))) (S (S (K S) K) (K (S (S K K) (S K K)))) a) = (a (S (K (S (S K K) (S K K))) (S (S (K S) K) (K (S (S K K) (S K K)))) a))
+]
+
+theorem br
+   ∀a,b,c ∊ Ψ ((S (K S) K) a b c) = (a (b c))
+  
+theorem cr
+   ∀a,b,c ∊ Ψ ((S (S (K (S (K S) K)) S) (K K)) a b c) = (a c b)
+

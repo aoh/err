@@ -1,0 +1,19 @@
+
+[prove that all (S K ?) are identity functions, define I as one make a proof using the general id]
+
+theorem id
+   ∀A,B∊Ψ 
+      (S K A B) = B
+   proof
+      (S K A B) = (K B (A B)) 
+                = B ▮
+
+define I as (S K K)
+
+theorem test
+   ∀X∊Ψ 
+      (I X) = X
+   proof
+      (I X) = (S K K X) by reduce
+            = X by id ▮
+      

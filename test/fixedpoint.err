@@ -1,0 +1,48 @@
+
+define I as (S K K)
+
+theorem id 
+   ∀ A ∊ Ψ (I A) = A
+proof
+   (I A) = (S K K A) = (K A (K A)) = A ▮
+
+define Y as (S (K (S I I)) (S (S (K S) K) (K (S I I))))
+
+define O as (S I I)
+
+define X as (S (K S) K)
+
+theorem Omega
+   ∀ A ∊ Ψ (O A) = (A A)
+proof
+   (O A) = (S I I A) = (I A (I A)) = (A (I A)) by id = (A A) by id ▮ 
+
+theorem lemma-1
+  ∀ A ∊ Ψ (O (S X (K O) A)) = (S (K O) (S X (K O)) A)
+proof
+   (O (S X (K O) A))
+     = (O (X A (K O A)))
+     = (O (X A O))
+     = (O (X A (K O A)))
+     = (K O A (X A (K O A)))
+     = (K O A (S X (K O) A))
+     = (S (K O) (S X (K O)) A) ▮
+
+theorem fixedpoint
+   ∀A∊Ψ (Y A) = (A (Y A))
+proof
+   (Y A) 
+     = (S (K O) (S X (K O)) A)
+     = (K O A (S X (K O) A))
+     = (O (S X (K O) A))
+     = (S X (K O) A (S X (K O) A)) by Omega
+     = (X A (K O A) (S X (K O) A))
+     = (S (K S) K A (K O A) (S X (K O) A))
+     = (K S A (K A) (K O A) (S X (K O) A))
+     = (S (K A) (K O A) (S X (K O) A))
+     = (S (K A) O (S X (K O) A))
+     = (K A (S X (K O) A) (O (S X (K O) A)))
+     = (A (O (S X (K O) A)))
+     = (A (S (K O) (S X (K O)) A)) by lemma-1
+     = (A (Y A)) ▮ 
+

@@ -1,0 +1,5 @@
+define I as (S K K)
+
+theorem foo
+   ∀N∊Ψ (I N) = N
+

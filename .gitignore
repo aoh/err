@@ -1,0 +1,9 @@
+.err.scm.swp
+.parrot
+bin
+err.c
+err.fasl
+owl-lisp
+test/output*
+theory/*.out
+theory/*.err

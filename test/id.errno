@@ -1,0 +1,5 @@
+theorem bad
+   ∀A,B ∊ Ψ
+      A = B
+   proof
+      A = A = B ▮

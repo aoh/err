@@ -1,0 +1,16 @@
+
+define I as (S K K)
+
+let set Is have I and (Z I) where Z is from Is
+
+theorem test 
+   ∀a∊Ψ ∀X∊Is (X a) = a
+
+[ should construct a proof like
+   proof by induction on X
+      if X is I then
+         (X a) = (I a) = (S K K a) = (K a (K a)) = a
+      if X is (Y I) then
+         (Y I a) = (I a) by induction hypothesis = (S K K a) = (K a (K a)) = a ▮
+]
+

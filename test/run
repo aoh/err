@@ -1,0 +1,68 @@
+#!/bin/sh
+
+echo "Checking that valid proofs are checkable:"
+for test in test/*.err
+do
+   echo -n " - $test: "
+   $@ $test >test/output 2>&1 && echo ok || { cat test/output; exit 1; }
+done
+
+echo
+echo "Checking that bad ones aren't:"
+for failtest in test/*.errno
+do
+   echo -n " - $failtest: "
+   $@ $failtest >test/output 2>&1
+   # check that nonzero and not 127 meaning other error
+   test $? -eq 1 || { cat test/output; exit 2; }
+   echo "ok"
+done
+
+echo
+echo "Checking that provable things can be proved and checked:"
+for partial in test/*.the
+do
+   echo -n " - $partial: "
+   $@ --prove $partial >test/output.stdout 2>test/output.stderr
+   test $? -eq 0 || { echo "Proving failed: "; cat test/output.stdout; cat test/output.stderr; exit 3; }
+   echo -n "proved"
+   $@ test/output.stdout >test/output 2>&1
+   test $? -eq 0 || { echo "Proof checking failed: "; cat test/output; exit 4; }
+   echo " and checked"
+done
+
+#echo
+#echo "Checking that non-provable things aren't:"
+#for partial in test/*.theno
+#do
+#   echo -n " - $partial: "
+#   $@ --prove $partial >test/output.stdout 2>test/output.stderr
+#   test $? -gt 0 || { echo "Proving succeeded: "; cat test/output.stdout; cat test/output.stderr; exit 5; }
+#   echo "ok"
+#done
+
+echo
+echo "Proving partial theories: "
+for theory in theory/*.the
+do
+   NAME=$(echo "$theory" | sed 's/the$/err/')
+   echo -n " - $theory: "
+   START=$(owl-lisp/bin/ol -e '(time-ms)')
+   $@ -p "$theory" > "$NAME" 2>&1
+   test $? -gt 0 && { echo "Proof failed: "; tail -n 10 "$NAME"; exit 1; }
+   ELAPSED=$(owl-lisp/bin/ol -e "(- (time-ms) $START)")
+   echo "$(wc -l < $theory) -> $(wc -l < $NAME) lines in ${ELAPSED}ms"
+done
+
+
+echo
+echo "Checking proofs with $@ --cheat"
+for theory in theory/*.err
+do
+   echo -n " - $theory: "
+   $@ --cheat $theory > $theory.out 2>&1
+   test $? -eq 0 || { echo "FAIL"; tail -n 10 $theory.out; exit 5; }
+   echo "ok"
+done
+
+echo

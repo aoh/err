@@ -1,0 +1,6 @@
+define I as (S K K)
+
+theorem Ir ∀a ∊ Ψ (I a) = a
+theorem IIr ∀a ∊ Ψ (I (I a)) = a
+theorem IIIr ∀a ∊ Ψ (I (I (I a))) = I
+
